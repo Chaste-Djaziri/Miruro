@@ -23,13 +23,16 @@ if (PROXY_URL) {
 
 const API_KEY = import.meta.env.VITE_API_KEY as string;
 
+const headers: Record<string, string> = {};
+if (API_KEY) {
+  headers['X-API-Key'] = API_KEY;
+}
+
 // Axios instance
 const axiosInstance = axios.create({
   baseURL: PROXY_URL || undefined,
   timeout: 10000,
-  headers: {
-    'X-API-Key': API_KEY, // Assuming your API expects the key in this header
-  },
+  headers,
 });
 
 // Error handling function
