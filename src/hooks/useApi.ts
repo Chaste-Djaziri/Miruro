@@ -292,13 +292,13 @@ async function fetchList(
         type: 'ANIME',
         sort: ['["SCORE_DESC"]'],
       };
-      url = `${BASE_URL}meta/anilist/advanced-search?type=${options.type}&sort=${options.sort}&`;
+      url = `${BASE_URL}meta/anilist/advanced-search?type=${options.type}&sort=${options.sort}`;
     } else if (type === 'Popular') {
       options = {
         type: 'ANIME',
         sort: ['["POPULARITY_DESC"]'],
       };
-      url = `${BASE_URL}meta/anilist/advanced-search?type=${options.type}&sort=${options.sort}&`;
+      url = `${BASE_URL}meta/anilist/advanced-search?type=${options.type}&sort=${options.sort}`;
     } else if (type === 'Upcoming') {
       const season = getNextSeason(); // This will set the season based on the current month
       options = {
@@ -308,7 +308,7 @@ async function fetchList(
         status: 'NOT_YET_RELEASED',
         sort: ['["POPULARITY_DESC"]'],
       };
-      url = `${BASE_URL}meta/anilist/advanced-search?type=${options.type}&status=${options.status}&sort=${options.sort}&season=${options.season}&year=${options.year}&`;
+      url = `${BASE_URL}meta/anilist/advanced-search?type=${options.type}&status=${options.status}&sort=${options.sort}&season=${options.season}&year=${options.year}`;
     } else if (type === 'TopAiring') {
       const season = getCurrentSeason(); // This will set the season based on the current month
       options = {
@@ -318,7 +318,7 @@ async function fetchList(
         status: 'RELEASING',
         sort: ['["POPULARITY_DESC"]'],
       };
-      url = `${BASE_URL}meta/anilist/advanced-search?type=${options.type}&status=${options.status}&sort=${options.sort}&season=${options.season}&year=${options.year}&`;
+      url = `${BASE_URL}meta/anilist/advanced-search?type=${options.type}&status=${options.status}&sort=${options.sort}&season=${options.season}&year=${options.year}`;
     }
   } else {
     cacheKey = generateCacheKey(
@@ -331,7 +331,8 @@ async function fetchList(
   }
 
   const specificCache = createCache(`${type}`);
-  return fetchFromProxy(`${url}?${params.toString()}`, specificCache, cacheKey);
+  const separator = url.includes('?') ? '&' : '?';
+  return fetchFromProxy(`${url}${separator}${params.toString()}`, specificCache, cacheKey);
 }
 
 // Functions to fetch top, trending, and popular anime
