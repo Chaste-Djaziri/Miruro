@@ -2,21 +2,23 @@ import axios from 'axios';
 import { year, getCurrentSeason, getNextSeason } from '../index';
 
 // Utility function to ensure URL ends with a slash
-function ensureUrlEndsWithSlash(url: string): string {
+function ensureUrlEndsWithSlash(url?: string): string {
+  if (!url) return '';
   return url.endsWith('/') ? url : `${url}/`;
 }
 
 // Adjusting environment variables to ensure they end with a slash
 const BASE_URL = ensureUrlEndsWithSlash(
-  import.meta.env.VITE_BACKEND_URL as string,
+  (import.meta.env.VITE_BACKEND_URL as string) ||
+    'https://public-miruro-consumet-api.vercel.app/',
 );
 const SKIP_TIMES = ensureUrlEndsWithSlash(
-  import.meta.env.VITE_SKIP_TIMES as string,
+  (import.meta.env.VITE_SKIP_TIMES as string) || 'https://api.aniskip.com/',
 );
 let PROXY_URL = import.meta.env.VITE_PROXY_URL; // Default to an empty string if no proxy URL is provided
 // Check if the proxy URL is provided and ensure it ends with a slash
 if (PROXY_URL) {
-  PROXY_URL = ensureUrlEndsWithSlash(import.meta.env.VITE_PROXY_URL as string);
+  PROXY_URL = ensureUrlEndsWithSlash(PROXY_URL);
 }
 
 const API_KEY = import.meta.env.VITE_API_KEY as string;
